@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+{{ title }}<br>
+{{ objectlist }} <br>
+
+
+{% for obj in objectlist %}
+/posts/id/
+{% url "posts:detail" id=obj.id %}
+<a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a><br/>
+
+{{ obj.content }}<br>
+{{ obj.updated }}<br>
+{{ obj.timestamp }}<br>
+{{ obj.id }}<br>
+{{ obj.pk }}<br>
+
+
+{% endfor %}
+
+
+
+</body>
+</html>
