@@ -8,6 +8,27 @@ from .models import Post
 from .forms import PostForm
 
 
+def post_detail(request, id=None):
+    #instance=Post.objects.get(id=2)
+    instance= get_object_or_404(Post, id=id)
+    context = {
+        "title": instance.title,
+        "instance":instance,
+
+    }
+    return render(request,"post_detail.html",context)
+
+
+def post_list(request):
+    queryset = Post.objects.all()
+    context = {
+        "object_list": queryset,
+            "title": "List"
+        }
+    return render(request, "index.html", context)
+
+
+
 def post_create(request):
     form= PostForm(request.POST or None )
     if form.is_valid():
@@ -24,41 +45,44 @@ def post_create(request):
     }
     return render(request,"post_form.html",context)
 
-def post_list(request):
-	queryset = Post.objects.all().order_by("-timestamp")
-	context = {
-		"object_list": queryset,
-		"title": "List"
-	}
-	return render(request, "base.html", context)
 
 
-def post_home(request):
-    '''if request.user.is_autheticated():
+'''def post_home(request):
+    if request.user.is_autheticated():
         context={
             "title": "Home. You are logged in."
         }
-        return render(request,"home.html",context)'''
+        return render(request,"home.html",context)
     queryset= Post.objects.all()
     context = {
-            "objectlist": queryset,
+            "object_list": queryset,
             "title": "You are not logged in"
         }
-    return render(request,"login.html",context)
+    return render(request, "index.html", context)'''
     #return HttpResponse("heyya ")
 
 
-def post_detail(request, id=None):
-    #instance=Post.objects.get(id=2)
-    instance= get_object_or_404(Post, id=id)
-    context = {
-        "instance":instance,
-        "title": instance.title,
-    }
-    return render(request,"post_detail.html",context)
+
+
 
 
 def post_update(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    form = PostForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        "title": instance.title,
+        "instance": instance,
+        "form":form,
+    }
+    return render(request, "post_form.html", context)
+
+
+'''def post_update(request, id=None):
     instance= get_object_or_404(Post, id=id)
     form = PostForm(request.POST or None, instance= instance)
     if form.is_valid():
@@ -75,7 +99,9 @@ def post_update(request, id=None):
         "title": instance.title,
         "form": form,
     }
-    return render(request,"post_form.html",context)
+    return render(request,"post_form.html",context)'''
+
+
 
 
 def post_delete(request, id=None):

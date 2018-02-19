@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>login</title>
+    <title>Post_List</title>
 </head>
 <body>
 
-{{ title }}<br>
-{{ objectlist }} <br>
+<h1>{{ title }} is working. </h1><br>
+{{ object_list }} <br>
 
 
-{% for obj in objectlist %}
-/posts/id/
-{% url "posts:detail" id=obj.id %}
-<a href='{{ obj.get_absolute_url }}'>{{ obj.title }}</a><br/>
+{% for obj in object_list %}
 
+{{ obj.title }}<br>
 {{ obj.content }}<br>
 {{ obj.updated }}<br>
 {{ obj.timestamp }}<br>
