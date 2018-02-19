@@ -25,15 +25,12 @@ def post_create(request):
     return render(request,"post_form.html",context)
 
 def post_list(request):
-	queryset = Post.objects.all()
+	queryset = Post.objects.all().order_by("-timestamp")
 	context = {
 		"object_list": queryset,
 		"title": "List"
 	}
 	return render(request, "base.html", context)
-
-
-
 
 
 def post_home(request):

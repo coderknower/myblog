@@ -1,12 +1,13 @@
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import authenticate,login
+from django.conf import settings
+from django.conf.urls.static import static
 
 from .views import post_home,post_create, post_detail,post_delete,post_update,post_list
 
 
 urlpatterns = [
-    url(r'^$', post_home, name='list'),
     url(r'^$', post_list, name='list'),
     url(r'^create/$', post_create),
     url(r'^(?P<id>\d+)/$', post_detail, name='detail'),
@@ -15,3 +16,5 @@ urlpatterns = [
 
 ]
 
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
