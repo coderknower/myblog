@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post_List</title>
-</head>
-<body>
 
+{% extends "base.html" %}
+
+{% block content %}
+<p>Parent Page</p>
 <h1>{{ title }} is working. </h1><br>
 {{ object_list }} <br>
 
@@ -22,7 +19,4 @@
 
 {% endfor %}
 
-
-
-</body>
-</html>
+{% endblock content %}

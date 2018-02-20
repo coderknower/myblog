@@ -1,9 +1,18 @@
 <{% extends "base.html" %}
 
 
-{% block head_title %}
-{{ instance.title }} | {{ block.super }}
-{% endblock head_title %}
+{% block head_title %}{{ instance.title }} | {{ block.super }}{% endblock head_title %}
+
+
+<style>
+    {% block style %}
+h1 {
+    color: #7777777;
+}
+
+    {% endblock style %}
+</style>
+
 
 
 

@@ -9,7 +9,7 @@ from .forms import PostForm
 
 
 def post_detail(request, id=None):
-    #instance=Post.objects.get(id=2)
+
     instance= get_object_or_404(Post, id=id)
     context = {
         "title": instance.title,
@@ -25,7 +25,7 @@ def post_list(request):
         "object_list": queryset,
             "title": "List"
         }
-    return render(request, "index.html", context)
+    return render(request, "post_list.html", context)
 
 
 
@@ -33,19 +33,39 @@ def post_create(request):
     form= PostForm(request.POST or None )
     if form.is_valid():
         instance = form.save(commit=False)
-        print (form.cleaned_data.get("title"))
+        print(form.cleaned_data.get("title"))
         instance.save()
         messages.success(request, "Successfully Created")
         return (HttpResponseRedirect(instance.get_absolute_url()))
-    else:
-        messages.error(request, "Not Successfully Created")
 
     context={
         "form":form,
     }
     return render(request,"post_form.html",context)
 
+def post_update(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    form = PostForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.success(request, "Saved")
 
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        "title": instance.title,
+        "instance": instance,
+        "form":form,
+    }
+    return render(request, "post_form.html", context)
+
+def post_delete(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    messages.success(request, "Successfully Deleted")
+    instance.delete()
+    return (HttpResponseRedirect(instance.get_absolute_url()))
+    return redirect("posts:list")
 
 '''def post_home(request):
     if request.user.is_autheticated():
@@ -60,27 +80,6 @@ def post_create(request):
         }
     return render(request, "index.html", context)'''
     #return HttpResponse("heyya ")
-
-
-
-
-
-
-def post_update(request, id=None):
-    instance = get_object_or_404(Post, id=id)
-    form = PostForm(request.POST or None, instance=instance)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.save()
-        return HttpResponseRedirect(instance.get_absolute_url())
-
-    context = {
-        "title": instance.title,
-        "instance": instance,
-        "form":form,
-    }
-    return render(request, "post_form.html", context)
-
 
 '''def post_update(request, id=None):
     instance= get_object_or_404(Post, id=id)
@@ -100,16 +99,3 @@ def post_update(request, id=None):
         "form": form,
     }
     return render(request,"post_form.html",context)'''
-
-
-
-
-def post_delete(request, id=None):
-    instance = get_object_or_404(Post, id=id)
-    messages.success(request, "Successfully Deleted")
-    instance.delete()
-    return (HttpResponseRedirect(instance.get_absolute_url()))
-    return redirect("posts:list")
-
-
-
