@@ -16,6 +16,3 @@ urlpatterns = [
     url(r'^(?P<id>\d+)/delete/$', post_delete),
 
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
